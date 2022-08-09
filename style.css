@@ -1,0 +1,173 @@
+
+/*
+1. Create a horizontal menu
+2. Create the navigation links and icons. 
+3. Center the icons and push the link text down. Make the text opaque.
+4. Create an active class that raises a selected icon and creates a colored circle around it.
+5. Optional - Use before and after on the active indicator to create a round slope on the menu around itself.
+6. Create JS to grab all of your list items. Add a function on each list item that runs an acitveLink function when clicked.
+7. When the activeLink function runs, iterate through all your list items, remove the acTiveLink class, then add the acTive link class to "this" item.
+8. Use nth child to in CSS to to grab each item that has activeClass and any of its siblings with ~
+9. Calculate the move of the active indicator. In this example its 70px to move exactly to the center of the next icon. 
+10. Run a calc to multiplay the move distance 70, on each item starting from the left. For example. If you click nth child 3, your moving
+the active indicator exactly 210px starting from the left. 70px * 3 = 210px where the left is starting at 70px on the home icon.
+
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+    border: none;
+    text-decoration: none;
+    list-style: none;
+    
+}
+
+/* This is the page color as well as the active indicator circle. Both must be the same color so use a variable */
+:root {
+    --clr: #222327;
+
+}
+
+/* Center the navigation on the page*/
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--clr);
+}
+
+nav.navigation {
+    width: 400px;
+    height: 70px;
+    background: #fff;
+    position: relative;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+nav.navigation ul {
+    display:flex;
+    width:350px;
+
+}
+
+nav.navigation ul li {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    z-index: 1;
+}
+
+/* Center the entire a tag in the menu. */
+nav.navigation ul li a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* position The icon in th e center */
+nav.navigation ul li a .icon {
+    position: relative;
+    display: block;
+    line-height: 75px;
+    font-size: 1.5em;
+    text-align: center;
+    transition: .5s;
+    color: var(--clr);
+
+}
+/* translate the icon up as it is hovered over */
+nav.navigation ul li.active a .icon {
+    transform: translateY(-37px);
+
+}
+
+/* Set the text to 0 opacity and translate down slightly below the icons */
+nav.navigation ul li a .text {
+    position: absolute;
+    color: var(--clr);
+    font-weight: 400;
+    font-size: .75em;
+    letter-spacing: .05em;
+    transition: .5s;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Set the opacity of the text menu item to appear */
+nav.navigation ul li.active a .text {
+    opacity: 1;
+ 
+}
+
+/* The indicator is the colored circle that appears around the menu icon. Position it to outline the icon when active */
+nav ul .indicator {
+    top: -50%;
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: rgb(126, 218, 235);
+    border-radius: 50%;
+    border: 6px solid var(--clr);
+    transition: .5s;
+}
+
+/* This before element creates the rounded age on the menu when the indicator is active (left side)*/
+nav ul .indicator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -22px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border-top-right-radius: 20px;
+    box-shadow: 0px -10px 0 0 var(--clr);
+}
+
+/* This before element creates the rounded age on the menu when the indicator is active (right side) */
+nav ul .indicator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -22px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border-top-left-radius: 20px;
+    box-shadow: 0px -10px 0 0 var(--clr);
+}
+
+/* Move the active indicator to the right this many pixels by using a calculate. For instance,
+Child 1 - 70 x 0 means the active links stays exactly at the first item. 3rd - child 70px * 2 = move 140 pixels to the right
+~ allows you to select any sibling items (less trict then +)*/
+
+.navigation ul li:nth-child(1).active ~ .indicator {
+    transform: translateX(calc(70px * 0));
+}
+
+.navigation ul li:nth-child(2).active ~ .indicator {
+    transform: translateX(calc(70px * 1));
+}
+.navigation ul li:nth-child(3).active ~ .indicator {
+transform: translateX(calc(70px * 2));}
+
+
+.navigation ul li:nth-child(4).active ~ .indicator {
+    transform: translateX(calc(70px * 3));
+}
+
+.navigation ul li:nth-child(5).active ~ .indicator {
+    transform: translateX(calc(70px * 4));
+}
